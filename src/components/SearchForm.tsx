@@ -1,5 +1,6 @@
 import React, { ChangeEvent, Component } from 'react';
 import { SearchFormProps, SearchFormState } from '../types/interface';
+import './SearchForm.css';
 
 class SearchForm extends Component<SearchFormProps, SearchFormState> {
   constructor(props: SearchFormProps) {
@@ -19,8 +20,9 @@ class SearchForm extends Component<SearchFormProps, SearchFormState> {
 
   render() {
     return (
-      <div>
+      <div className="SearchFormContainer">
         <input
+          className="input"
           type="text"
           value={this.state.searchTerm}
           onChange={this.handleChange}
