@@ -1,6 +1,5 @@
 import React, { ChangeEvent, Component } from 'react';
 import { SearchFormProps, SearchFormState } from '../types/interface';
-import './SearchForm.css';
 
 class SearchForm extends Component<SearchFormProps, SearchFormState> {
   constructor(props: SearchFormProps) {

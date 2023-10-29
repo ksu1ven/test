@@ -45,9 +45,6 @@ class App extends Component<object, AppState> {
         .catch((error) => this.setState({ error }));
     }
   };
-  // fetch(`https://swapi.dev/api/people/?search=r2`)
-  //       .then((response) => response.json())
-  //       .then((data) => console.log(data.results))
 
   render() {
     const { userInput, results, error }: AppState = this.state;

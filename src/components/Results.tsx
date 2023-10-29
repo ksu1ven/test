@@ -7,22 +7,7 @@ export class ResultsAPI extends Component<{
   error: Error | null;
 }> {
   render() {
-    const { results, error } = this.props;
-
-    if (error) {
-      return (
-        <div>
-          <p>Error: {error.message}</p>
-          <button
-            onClick={() => {
-              throw new Error('Test Error');
-            }}
-          >
-            Throw Error
-          </button>
-        </div>
-      );
-    }
+    const { results } = this.props;
 
     return (
       <div className="ResultsContainer">
