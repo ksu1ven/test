@@ -1,12 +1,5 @@
 import React, { ChangeEvent, Component } from 'react';
-
-interface SearchFormProps {
-  onSearch: (searchTerm: string) => void;
-  searchTerm: string;
-}
-interface SearchFormState {
-  searchTerm: string;
-}
+import { SearchFormProps, SearchFormState } from '../types/interface';
 
 class SearchForm extends Component<SearchFormProps, SearchFormState> {
   constructor(props: SearchFormProps) {

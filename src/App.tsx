@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Greeting } from './test';
-import SearchForm from './SearchForm';
+import SearchForm from './components/SearchForm';
 
 interface AppState {
   userInput: string;
