@@ -27,9 +27,12 @@ export class ResultsAPI extends Component<{
     return (
       <div className="ResultsContainer">
         {results.map((result) => (
-          <div key={result.id}>
-            <h3>{result.name}</h3>
-            <img src={result.sprites.front_default} alt={result.name} />
+          <div key={result.url}>
+            <h3>Name:{result.name}</h3>
+            <h3>Mass:{result.mass}</h3>
+            <h3>Skin Color:{result.skin_color}</h3>
+            <h3>Gender:{result.gender}</h3>
+            <h3>Eye color:{result.eye_color}</h3>
           </div>
         ))}
       </div>

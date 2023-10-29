@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Greeting } from './test';
 import SearchForm from './components/SearchForm';
 import { ResultsAPI } from './components/Results';
 import { AppState } from './types/interface';
+import './App.css';
+import { API_URL } from './constants/api';
 
 class App extends Component<object, AppState> {
   constructor(props: AppState) {
@@ -13,27 +14,47 @@ class App extends Component<object, AppState> {
       error: null,
     };
   }
+
+  componentDidMount() {
+    const { userInput } = this.state;
+    this.performSearch(userInput);
+  }
+
   handleSearch = (userInput: string) => {
     userInput = userInput.trim();
     localStorage.setItem('userInput', userInput);
     this.setState({ userInput, results: [], error: null });
     if (userInput) {
-      fetch(`https://pokeapi.co/api/v2/${userInput}`)
+      fetch(`${API_URL}${userInput}`)
         .then((response) => response.json())
-        .then((data) => this.setState({ results: [data] }))
+        .then((data) => this.setState({ results: data.results }))
         .catch((error) => this.setState({ error }));
     }
   };
-  // fetch(`https://pokeapi.co/api/v2/pokemon/ditto`)
+
+  performSearch = (userInput: string) => {
+    if (!userInput) {
+      fetch(`${API_URL}${userInput}`)
+        .then((response) => response.json())
+        .then((data) => this.setState({ results: data.results }))
+        .catch((error) => this.setState({ error }));
+    } else {
+      fetch(`${API_URL}${userInput}`)
+        .then((response) => response.json())
+        .then((data) => this.setState({ results: data.results }))
+        .catch((error) => this.setState({ error }));
+    }
+  };
+  // fetch(`https://swapi.dev/api/people/?search=r2`)
   //       .then((response) => response.json())
-  //       .then((data) => console.log(data))
+  //       .then((data) => console.log(data.results))
 
   render() {
     const { userInput, results, error }: AppState = this.state;
+
     return (
       <div>
         <SearchForm onSearch={this.handleSearch} searchTerm={userInput} />
-        <Greeting name={userInput} />
         <ResultsAPI results={results} error={error} />
       </div>
     );

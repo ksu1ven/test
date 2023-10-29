@@ -7,11 +7,12 @@ export interface SearchFormState {
 }
 
 export interface Results {
-  id: number;
+  url: string;
+  mass: string;
   name: string;
-  sprites: {
-    front_default: string;
-  };
+  skin_color: string;
+  gender: string;
+  eye_color: string;
 }
 
 export interface AppState {
