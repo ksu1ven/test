@@ -21,7 +21,6 @@ class SearchForm extends Component<SearchFormProps, SearchFormState> {
     return (
       <div className="SearchFormContainer">
         <input
-          className="input"
           type="text"
           value={this.state.searchTerm}
           onChange={this.handleChange}
