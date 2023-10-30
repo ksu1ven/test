@@ -53,7 +53,8 @@ export class App extends React.Component<Props, State> {
 
   render() {
     return (
-      <>
+      <div className="app">
+        <h1 className="title">The Star Wars Hero</h1>
         <Input callback={this.getInputName} />
         {this.state.isLoading ? (
           <p className="loading">loading...</p>
@@ -73,7 +74,7 @@ export class App extends React.Component<Props, State> {
         {!this.state.isLoading && this.state.people.length === 0 && (
           <p className="incorrect-name">Incorrect name</p>
         )}
-      </>
+      </div>
     );
   }
 }

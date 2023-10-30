@@ -1,0 +1,19 @@
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-bottom: 2px solid teal;
+  padding: 30px 0px;
+}
+
+.form button {
+  color: white;
+  background-color: teal;
+  border: 2px solid teal;
+}
+
+.form button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}

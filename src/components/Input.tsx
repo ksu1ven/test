@@ -1,4 +1,5 @@
 import React, { ChangeEvent, MouseEvent } from 'react';
+import './input.css';
 
 interface State {
   InputName: string;
@@ -30,7 +31,7 @@ export class Input extends React.Component<Props, State> {
 
   render() {
     return (
-      <form>
+      <form className="form">
         <input
           placeholder="enter a name"
           onChange={this.onChange}
