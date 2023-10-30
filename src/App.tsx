@@ -28,7 +28,6 @@ export class App extends React.Component<Props, State> {
           next: data.next,
           previous: data.previous,
         });
-        console.log(data);
       });
   };
 
@@ -44,7 +43,6 @@ export class App extends React.Component<Props, State> {
           next: data.next,
           previous: data.previous,
         });
-        console.log(data);
       });
   };
 
