@@ -70,6 +70,9 @@ export class App extends React.Component<Props, State> {
             />
           ))
         )}
+        {!this.state.isLoading && this.state.people.length === 0 && (
+          <p className="incorrect-name">Incorrect name</p>
+        )}
       </>
     );
   }
