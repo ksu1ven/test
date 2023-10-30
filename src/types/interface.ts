@@ -19,4 +19,5 @@ export interface AppState {
   userInput: string;
   results: Results[];
   error: Error | null;
+  loading: boolean;
 }
