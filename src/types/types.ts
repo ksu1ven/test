@@ -13,4 +13,6 @@ export interface People {
 export interface State {
   people: People[];
   isLoading: boolean;
+  previous: string;
+  next: string;
 }

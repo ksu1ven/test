@@ -3,6 +3,7 @@ import { Props, State } from './types/types';
 import { Post } from './components/Post';
 import './App.css';
 import { Input } from './components/Input';
+import { Pagination } from './components/Pagination';
 
 export class App extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -10,6 +11,8 @@ export class App extends React.Component<Props, State> {
     this.state = {
       people: [],
       isLoading: false,
+      previous: '',
+      next: '',
     };
   }
 
@@ -19,9 +22,13 @@ export class App extends React.Component<Props, State> {
         return response.json();
       })
       .then((data) => {
-        this.setState({ people: data.results });
-        this.setState({ isLoading: false });
-        console.log(data.results);
+        this.setState({
+          people: data.results,
+          isLoading: false,
+          next: data.next,
+          previous: data.previous,
+        });
+        console.log(data);
       });
   };
 
@@ -31,9 +38,13 @@ export class App extends React.Component<Props, State> {
         return response.json();
       })
       .then((data) => {
-        this.setState({ people: data.results });
-        this.setState({ isLoading: false });
-        console.log(data.results);
+        this.setState({
+          people: data.results,
+          isLoading: false,
+          next: data.next,
+          previous: data.previous,
+        });
+        console.log(data);
       });
   };
 
@@ -74,6 +85,7 @@ export class App extends React.Component<Props, State> {
         {!this.state.isLoading && this.state.people.length === 0 && (
           <p className="incorrect-name">Incorrect name</p>
         )}
+        <Pagination />
       </div>
     );
   }
