@@ -13,7 +13,7 @@ export class Input extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      InputName: '',
+      InputName: localStorage.getItem('name') || '',
     };
     this.callback = props.callback;
   }
@@ -24,13 +24,18 @@ export class Input extends React.Component<Props, State> {
 
   onClick = (event: MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    this.callback(this.state.InputName);
+    this.callback(this.state.InputName.trim());
+    localStorage.setItem('name', this.state.InputName.trim());
   };
 
   render() {
     return (
       <form>
-        <input placeholder="enter a name" onChange={this.onChange}></input>
+        <input
+          placeholder="enter a name"
+          onChange={this.onChange}
+          value={this.state.InputName}
+        ></input>
         <button type="submit" onClick={this.onClick}>
           search
         </button>

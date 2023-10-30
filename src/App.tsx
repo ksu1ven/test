@@ -10,14 +10,10 @@ export class App extends React.Component<Props, State> {
     this.state = {
       people: [],
       isLoading: false,
-      inputName: '',
     };
   }
 
-  //  https://swapi.dev/api/people/?search=r2-d2
-
-  componentDidMount(): void {
-    this.setState({ isLoading: true });
+  getAllItems = () => {
     fetch('https://swapi.dev/api/people/')
       .then((response) => {
         return response.json();
@@ -27,17 +23,38 @@ export class App extends React.Component<Props, State> {
         this.setState({ isLoading: false });
         console.log(data.results);
       });
+  };
+
+  getItem = (name: string) => {
+    fetch(`https://swapi.dev/api/people/?search=${name}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        this.setState({ people: data.results });
+        this.setState({ isLoading: false });
+        console.log(data.results);
+      });
+  };
+
+  componentDidMount(): void {
+    this.setState({ isLoading: true });
+    if (localStorage.getItem('name')) {
+      this.getItem(localStorage.getItem('name') || '');
+    } else {
+      this.getAllItems();
+    }
   }
 
-  getInputName = (InputName: string) => {
-    this.setState({ inputName: InputName });
+  getInputName = (inputName: string) => {
+    this.setState({ isLoading: true });
+    this.getItem(inputName);
   };
 
   render() {
     return (
       <>
         <Input callback={this.getInputName} />
-        <h1>people</h1>
         {this.state.isLoading ? (
           <p className="loading">loading...</p>
         ) : (
