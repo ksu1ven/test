@@ -13,11 +13,11 @@ export class ResultsAPI extends Component<{
       <div className="ResultsContainer">
         {results.map((result) => (
           <div key={result.url}>
-            <h3>Name:{result.name}</h3>
-            <h3>Mass:{result.mass}</h3>
-            <h3>Skin Color:{result.skin_color}</h3>
-            <h3>Gender:{result.gender}</h3>
-            <h3>Eye color:{result.eye_color}</h3>
+            <h3>Name: {result.name}</h3>
+            <img src={result.image} alt={result.name} />
+            <h3>Species: {result.species}</h3>
+            <h3>Status: {result.status}</h3>
+            <h3>Location: {result.location.name}</h3>
           </div>
         ))}
       </div>

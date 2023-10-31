@@ -17,6 +17,12 @@ class SearchForm extends Component<SearchFormProps, SearchFormState> {
     this.props.onSearch(this.state.searchTerm);
   };
 
+  handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      this.handleSearch();
+    }
+  };
+
   render() {
     return (
       <div className="SearchFormContainer">
@@ -24,6 +30,7 @@ class SearchForm extends Component<SearchFormProps, SearchFormState> {
           type="text"
           value={this.state.searchTerm}
           onChange={this.handleChange}
+          onKeyDown={this.handleKeyPress}
         />
         <button onClick={this.handleSearch}>Search</button>
       </div>

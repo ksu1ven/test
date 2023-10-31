@@ -8,11 +8,13 @@ export interface SearchFormState {
 
 export interface Results {
   url: string;
-  mass: string;
+  image: string;
   name: string;
-  skin_color: string;
-  gender: string;
-  eye_color: string;
+  status: string;
+  species: string;
+  location: {
+    name: string;
+  };
 }
 
 export interface AppState {
