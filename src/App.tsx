@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import SearchForm from './components/SearchForm';
 import { ResultsAPI } from './components/Results';
 import { AppState } from './types/interface';
 import './App.css';
-import { API_URL } from './constants/api';
+import { fetchCharacter } from './rest api/character';
 
 class App extends Component<object, AppState> {
   constructor(props: AppState) {
@@ -19,37 +19,17 @@ class App extends Component<object, AppState> {
   componentDidMount() {
     const { userInput } = this.state;
     this.setState({ loading: true });
-    this.performSearch(userInput);
+    this.handleSearch(userInput);
   }
 
   handleSearch = (userInput: string) => {
-    userInput = userInput.trim();
     localStorage.setItem('userInput', userInput);
     this.setState({ userInput, results: [], error: null, loading: true });
-    if (userInput) {
-      fetch(`${API_URL}${userInput}`)
-        .then((response) => response.json())
-        .then((data) => this.setState({ results: data.results }))
-        .catch((error) => this.setState({ error }))
-        .finally(() => this.setState({ loading: false }));
-    }
-  };
 
-  performSearch = (userInput: string) => {
-    this.setState({ loading: true });
-    if (!userInput) {
-      fetch(`${API_URL}${userInput}`)
-        .then((response) => response.json())
-        .then((data) => this.setState({ results: data.results }))
-        .catch((error) => this.setState({ error }))
-        .finally(() => this.setState({ loading: false }));
-    } else {
-      fetch(`${API_URL}${userInput}`)
-        .then((response) => response.json())
-        .then((data) => this.setState({ results: data.results }))
-        .catch((error) => this.setState({ error }))
-        .finally(() => this.setState({ loading: false }));
-    }
+    fetchCharacter(userInput)
+      .then((data) => this.setState({ results: data.results }))
+      .catch((error) => this.setState({ error }))
+      .finally(() => this.setState({ loading: false }));
   };
 
   render() {
