@@ -1,41 +1,33 @@
-import React, { ChangeEvent, Component } from 'react';
-import { SearchFormProps, SearchFormState } from '../types/interface';
+import React, { ChangeEvent, useState } from 'react';
+import { SearchFormProps } from '../types/interface';
 
-class SearchForm extends Component<SearchFormProps, SearchFormState> {
-  constructor(props: SearchFormProps) {
-    super(props);
-    this.state = {
-      searchTerm: props.searchTerm || '',
-    };
-  }
+export const SearchForm = (props: SearchFormProps): JSX.Element => {
+  const [searchTerm, setSearchTerm] = useState(props.searchTerm || '');
 
-  handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ searchTerm: event.target.value });
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
   };
 
-  handleSearch = () => {
-    this.props.onSearch(this.state.searchTerm);
+  const handleSearch = () => {
+    props.onSearch(searchTerm);
   };
 
-  handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      this.handleSearch();
+      handleSearch();
     }
   };
-
-  render() {
-    return (
-      <div className="SearchFormContainer">
-        <input
-          type="text"
-          value={this.state.searchTerm}
-          onChange={this.handleChange}
-          onKeyDown={this.handleKeyPress}
-        />
-        <button onClick={this.handleSearch}>Search</button>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="SearchFormContainer">
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleChange}
+        onKeyDown={handleKeyPress}
+      />
+      <button onClick={handleSearch}>Search</button>
+    </div>
+  );
+};
 
 export default SearchForm;
