@@ -17,6 +17,10 @@ export interface Results {
   };
 }
 
+export interface ResultsAPIProps {
+  results: Results[];
+}
+
 export interface AppState {
   userInput: string;
   results: Results[];
