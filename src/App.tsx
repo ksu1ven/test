@@ -1,51 +1,42 @@
-import { Component } from 'react';
-import SearchForm from './components/SearchForm';
+import { useEffect, useState } from 'react';
+import { SearchForm } from './components/SearchForm';
 import { ResultsAPI } from './components/Results';
-import { AppState } from './types/interface';
 import './App.css';
 import { fetchCharacter } from './rest api/character';
 
-class App extends Component<object, AppState> {
-  constructor(props: AppState) {
-    super(props);
-    this.state = {
-      userInput: localStorage.getItem('userInput') || '',
-      results: [],
-      error: null,
-      loading: false,
-    };
-  }
+export const App = () => {
+  const storedUserInput = localStorage.getItem('userInput');
+  const [userInput, setUserInput] = useState(storedUserInput || '');
 
-  componentDidMount() {
-    const { userInput } = this.state;
-    this.setState({ loading: true });
-    this.handleSearch(userInput);
-  }
+  const [results, setResults] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  handleSearch = (userInput: string) => {
+  useEffect(() => {
+    setLoading(true);
+    handleSearch(userInput);
+  }, [userInput]);
+
+  const handleSearch = (userInput: string) => {
     localStorage.setItem('userInput', userInput);
-    this.setState({ userInput, results: [], error: null, loading: true });
+    setUserInput(userInput);
+    setResults([]);
+    setError(null);
+    setLoading(true);
 
     fetchCharacter(userInput)
-      .then((data) => this.setState({ results: data.results }))
-      .catch((error) => this.setState({ error }))
-      .finally(() => this.setState({ loading: false }));
+      .then((data) => setResults(data.results))
+      .catch((error) => setError(error))
+      .finally(() => setLoading(false));
   };
-
-  render() {
-    const { userInput, results, error, loading }: AppState = this.state;
-
-    return (
-      <div>
-        <SearchForm onSearch={this.handleSearch} searchTerm={userInput} />
-        {loading ? (
-          <div className="loader"></div>
-        ) : (
-          <ResultsAPI results={results} error={error} />
-        )}
-      </div>
-    );
-  }
-}
-
-export default App;
+  return (
+    <div>
+      <SearchForm onSearch={handleSearch} searchTerm={userInput} />
+      {loading ? (
+        <div className="loader"></div>
+      ) : (
+        <ResultsAPI results={results} error={error} />
+      )}
+    </div>
+  );
+};
