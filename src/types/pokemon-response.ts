@@ -3,7 +3,13 @@ interface PokemonResponse {
   weight: number;
   height: number;
   abilities: string[];
-  image: string | null;
+  image: Image[];
+  isDefault: boolean;
+}
+
+interface Image {
+  type: string;
+  url: string | null;
 }
 
 export default PokemonResponse;

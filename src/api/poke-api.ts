@@ -1,4 +1,5 @@
 import PokemonData from "../types/pokemon-data";
+import PokemonResponse from "../types/pokemon-response";
 import PokemonsProps from "../types/pokemons-props";
 
 export default class PokeApi {
@@ -65,6 +66,7 @@ export default class PokeApi {
           height: convertPokemon.height,
           abilities: convertPokemon.abilities,
           image: convertPokemon.image,
+          isDefault: convertPokemon.isDefault,
         };
       }),
     );
@@ -79,13 +81,34 @@ export default class PokeApi {
       });
   }
 
-  convertPokemon({ name, abilities, sprites, weight, height }: PokemonData) {
+  convertPokemon({
+    name,
+    abilities,
+    sprites,
+    weight,
+    height,
+    is_default,
+  }: PokemonData): PokemonResponse {
     return {
-      name,
+      name: this.capitalizeFirstLetter(name),
       weight,
       height,
       abilities: abilities.map((ability) => ability.ability.name),
-      image: sprites.front_default ?? sprites.front_shiny ?? null,
+      image: [
+        {
+          type: "front",
+          url: sprites.front_default ?? sprites.front_shiny ?? null,
+        },
+        {
+          type: "back",
+          url: sprites.back_default ?? sprites.back_shiny ?? null,
+        },
+      ],
+      isDefault: is_default,
     };
+  }
+
+  capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 }

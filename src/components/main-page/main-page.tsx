@@ -8,7 +8,7 @@ import PokemonResponse from "../../types/pokemon-response";
 import Search from "../search";
 import Loader from "../loader";
 import PokemonsTable from "../pokemons-table";
-import { useSearchParams } from "react-router-dom";
+import { Outlet, useSearchParams } from "react-router-dom";
 import Pagination from "../pagination";
 
 const MainPage = () => {
@@ -59,23 +59,28 @@ const MainPage = () => {
   }
 
   return (
-    <>
-      <button className="error-button" onClick={() => setHasError(true)}>
-        Error
-      </button>
-      <Search
-        inputValue={inputValue}
-        onInputChange={onInputChange}
-        submitSearch={submitSearch}
-      />
-      {isLoading ? <Loader /> : <PokemonsTable pokemons={pokemons} />}
-      <Pagination
-        currentPage={+page}
-        totalCount={total}
-        pageLimit={20}
-        setPage={handlePage}
-      />
-    </>
+    <div className="container">
+      <div className="right">
+        <button className="error-button" onClick={() => setHasError(true)}>
+          Error
+        </button>
+        <Search
+          inputValue={inputValue}
+          onInputChange={onInputChange}
+          submitSearch={submitSearch}
+        />
+        {isLoading ? <Loader /> : <PokemonsTable pokemons={pokemons} />}
+        <Pagination
+          currentPage={+page}
+          totalCount={total}
+          pageLimit={20}
+          setPage={handlePage}
+        />
+      </div>
+      <div className="left">
+        <Outlet />
+      </div>
+    </div>
   );
 };
 

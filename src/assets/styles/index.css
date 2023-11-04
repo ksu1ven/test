@@ -6,11 +6,28 @@ button {
   cursor: pointer;
 }
 
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+p {
+  margin: 3;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   padding: 2rem;
   text-align: center;
+  position: relative;
+}
+
+.left {
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 table {
@@ -106,13 +123,11 @@ th {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 5px;
   list-style: none;
 }
 
 .pagination-item {
-  cursor: pointer;
   width: 30px;
   height: 30px;
   display: flex;
@@ -123,4 +138,76 @@ th {
 
 .pagination-item.active {
   border-color: rgb(255, 0, 0);
+}
+
+.pokemon-card-wrapper {
+  pointer-events: all;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); 
+}
+
+.pokemon-card {
+  position: fixed;
+  top: 35px;
+  right: 35px;
+  width: max-content;
+  background-color: #4caf50;
+  padding: 20px 50px 50px;
+  border-radius: 10px;
+  color: white;
+}
+
+.pokemon-name {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 20px;
+}
+
+.pokemon-main-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  text-align: left;
+}
+
+.pokemon-images {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.pokemon-image-wrapper {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.pokemon-image {
+  width: 100%;
+  height: auto;
+}
+
+.pokemon-weight,
+.pokemon-height {
+  font-weight: bold;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  font-size: 25px;
+  background-color: rgb(255, 62, 62);
+  border: none;
+  border-radius: 50%;
 }

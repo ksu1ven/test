@@ -4,6 +4,7 @@ interface PokemonData {
   weight: number;
   height: number;
   sprites: Sprites;
+  is_default: boolean;
 }
 
 interface Ability {
@@ -16,6 +17,8 @@ interface Ability {
 interface Sprites {
   front_default: string | null;
   front_shiny: string | null;
+  back_default: string | null;
+  back_shiny: string | null;
 }
 
 export default PokemonData;

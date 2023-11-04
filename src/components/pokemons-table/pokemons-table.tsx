@@ -1,5 +1,6 @@
 import React from "react";
 import PokemonResponse from "../../types/pokemon-response";
+import { Link } from "react-router-dom";
 
 type Props = {
   pokemons: PokemonResponse[];
@@ -15,34 +16,28 @@ const PokemonsTable = ({ pokemons }: Props) => {
         <tr>
           <th>Image</th>
           <th>Name</th>
-          <th>Abilities</th>
-          <th>Height, sm</th>
-          <th>Weight, kg</th>
         </tr>
       </thead>
       <tbody>
-        {pokemons.map((pokemon) => (
-          <tr key={pokemon.name}>
-            <td>
-              {pokemon.image ? (
-                <img src={pokemon.image} alt={pokemon.name} />
-              ) : (
-                <span>None</span>
-              )}
-            </td>
-            <td>{pokemon.name}</td>
-            <td>
-              {pokemon.abilities.map((ability, index) => (
-                <span key={ability}>
-                  {ability}
-                  {index !== pokemon.abilities.length - 1 && ", "}
-                </span>
-              ))}
-            </td>
-            <td>{pokemon.height * 10}</td>
-            <td>{pokemon.weight / 10}</td>
-          </tr>
-        ))}
+        {pokemons.map((pokemon) => {
+          const image = pokemon.image[0].url;
+          return (
+            <tr key={pokemon.name}>
+              <td>
+                {image ? (
+                  <img src={image} alt={pokemon.name} />
+                ) : (
+                  <span>None</span>
+                )}
+              </td>
+              <td>
+                <Link to={"/" + pokemon.name.toLowerCase()}>
+                  {pokemon.name}
+                </Link>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
