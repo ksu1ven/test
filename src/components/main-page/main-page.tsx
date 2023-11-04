@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
@@ -10,81 +10,69 @@ import Search from "../search";
 import Loader from "../loader";
 import PokemonsTable from "../pokemons-table";
 
-interface StateProps {
-  pokemons: PokemonResponse[];
-  search: string;
-  inputValue: string;
-  isLoading: boolean;
-  hasError: boolean;
-}
+const MainPage = () => {
+  const [pokemons, setPokemons] = useState<PokemonResponse[]>([]);
+  const [search, setSearch] = useState(getLocalStorageItem("search"));
+  const [inputValue, setInputValue] = useState(getLocalStorageItem("search"));
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
-export class MainPage extends React.Component {
-  state: StateProps = {
-    pokemons: [],
-    search: getLocalStorageItem("search"),
-    inputValue: getLocalStorageItem("search"),
-    isLoading: false,
-    hasError: false,
+  const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
   };
 
-  onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({ inputValue: event.target.value });
+  const submitSearch = () => {
+    setSearch(inputValue);
+    setLocalStorageItem("search", inputValue);
   };
 
-  submitSearch = () => {
-    this.setState({ search: this.state.inputValue });
-    setLocalStorageItem("search", this.state.inputValue);
-  };
+  useEffect(() => {
+    const fetchPokemons = async () => {
+      setIsLoading(true);
+      const pokemonsApi = new PokeApi();
+      const pokemonsArray = await pokemonsApi.getPokemons();
+      const pokemons = await Promise.all(
+        pokemonsArray.map(async (pokemon: PokemonsProps) => {
+          const { name, weight, height, abilities, image } =
+            await pokemonsApi.getPokemon(pokemon.name);
 
-  async componentDidMount() {
-    this.setState({ isLoading: true });
-    const pokemonsApi = new PokeApi();
-    const pokemonsArray = await pokemonsApi.getPokemons();
-    const pokemons = await Promise.all(
-      pokemonsArray.map(async (pokemon: PokemonsProps) => {
-        const { name, weight, height, abilities, image } =
-          await pokemonsApi.getPokemon(pokemon.name);
+          return {
+            name,
+            weight,
+            height,
+            abilities,
+            image,
+          };
+        }),
+      );
+      setPokemons(pokemons);
+      setIsLoading(false);
+    };
 
-        return {
-          name,
-          weight,
-          height,
-          abilities,
-          image,
-        };
-      }),
-    );
-    this.setState({ pokemons });
-    this.setState({ isLoading: false });
+    fetchPokemons();
+  }, []);
+
+  const filteredPokemons = pokemons.filter(
+    (pokemon) => pokemon.name.indexOf(search) !== -1,
+  );
+
+  if (hasError) {
+    throw new Error("Generated error");
   }
-  render() {
-    const pokemons = this.state.pokemons.filter(
-      (pokemon) => pokemon.name.indexOf(this.state.search) !== -1,
-    );
 
-    if (this.state.hasError) {
-      throw new Error("Generated error");
-    }
+  return (
+    <>
+      <button className="error-button" onClick={() => setHasError(true)}>
+        Error
+      </button>
+      <Search
+        inputValue={inputValue}
+        onInputChange={onInputChange}
+        submitSearch={submitSearch}
+      />
+      {isLoading ? <Loader /> : <PokemonsTable pokemons={filteredPokemons} />}
+    </>
+  );
+};
 
-    return (
-      <>
-        <button
-          className="error-button"
-          onClick={() => this.setState({ hasError: true })}
-        >
-          Error
-        </button>
-        <Search
-          inputValue={this.state.inputValue}
-          onInputChange={this.onInputChange}
-          submitSearch={this.submitSearch}
-        />
-        {this.state.isLoading ? (
-          <Loader />
-        ) : (
-          <PokemonsTable pokemons={pokemons} />
-        )}
-      </>
-    );
-  }
-}
+export default MainPage;
