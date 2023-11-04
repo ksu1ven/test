@@ -19,6 +19,7 @@ export interface Results {
 
 export interface ResultsAPIProps {
   results: Results[];
+  resultsByPage: Results[];
   error: Error | null;
 }
 
