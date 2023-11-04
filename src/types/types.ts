@@ -7,4 +7,3 @@ export interface Hero {
   height: string;
   url?: string;
 }
-
