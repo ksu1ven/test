@@ -1,5 +1,5 @@
-import classNames from "classnames";
 import React from "react";
+import classNames from "classnames";
 
 interface Props {
   currentPage: number;
@@ -19,14 +19,15 @@ const Pagination = ({ currentPage, totalCount, pageLimit, setPage }: Props) => {
   return (
     <ul className="pagination-list">
       {pageNumbers.map((pageNumber) => (
-        <li
-          key={pageNumber}
-          className={classNames("pagination-item", {
-            ["active"]: currentPage === pageNumber,
-          })}
-          onClick={() => setPage(pageNumber)}
-        >
-          {pageNumber}
+        <li key={pageNumber}>
+          <button
+            className={classNames("pagination-item", {
+              ["active"]: currentPage === pageNumber,
+            })}
+            onClick={() => setPage(pageNumber)}
+          >
+            {pageNumber}
+          </button>
         </li>
       ))}
     </ul>
