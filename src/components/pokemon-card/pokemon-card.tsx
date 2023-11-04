@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import PokemonResponse from "../../types/pokemon-response";
 import PokeApi from "../../api/poke-api";

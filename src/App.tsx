@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MainPage from "./components/main-page";
 import ErrorBoundary from "./components/error-boundary";

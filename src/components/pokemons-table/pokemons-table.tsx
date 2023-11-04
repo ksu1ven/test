@@ -1,4 +1,3 @@
-import React from "react";
 import PokemonResponse from "../../types/pokemon-response";
 import { Link } from "react-router-dom";
 
