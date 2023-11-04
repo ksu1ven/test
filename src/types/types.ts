@@ -1,6 +1,4 @@
-export interface Props {}
-
-export interface People {
+export interface Hero {
   name: string;
   birth_year: string;
   eye_color: string;
@@ -10,9 +8,3 @@ export interface People {
   url?: string;
 }
 
-export interface State {
-  people: People[];
-  isLoading: boolean;
-  previous: string;
-  next: string;
-}

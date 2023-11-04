@@ -1,0 +1,14 @@
+.loading,
+.title,
+.incorrect-name {
+  color: teal;
+  text-align: center;
+}
+
+.incorrect-name {
+  font-size: 20px;
+}
+
+.app {
+    margin: 0px 40px;
+  }
