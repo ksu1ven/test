@@ -1,3 +1,3 @@
-import { PokemonsTable } from "./pokemons-table";
+import PokemonsTable from "./pokemons-table";
 
 export default PokemonsTable;
