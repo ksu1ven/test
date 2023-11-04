@@ -15,7 +15,8 @@ export default class PokeApi {
       .then((response) => response.json())
       .then((data) => {
         const result = data.results.filter(
-          (pokemon: PokemonsProps) => pokemon.name.indexOf(searchValue) !== -1,
+          (pokemon: PokemonsProps) =>
+            pokemon.name.indexOf(searchValue.toLowerCase()) !== -1,
         );
 
         return {
