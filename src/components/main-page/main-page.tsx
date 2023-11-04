@@ -5,56 +5,54 @@ import {
 } from "../../api/local-storage";
 import PokeApi from "../../api/poke-api";
 import PokemonResponse from "../../types/pokemon-response";
-import PokemonsProps from "../../types/pokemons-props";
 import Search from "../search";
 import Loader from "../loader";
 import PokemonsTable from "../pokemons-table";
+import { useSearchParams } from "react-router-dom";
+import Pagination from "../pagination";
 
 const MainPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [pokemons, setPokemons] = useState<PokemonResponse[]>([]);
-  const [search, setSearch] = useState(getLocalStorageItem("search"));
+  const [searchValue, setSearchValue] = useState(getLocalStorageItem("search"));
   const [inputValue, setInputValue] = useState(getLocalStorageItem("search"));
+  const [page, setPage] = useState(searchParams.get("page") ?? 1);
+  const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
 
-  const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+  useEffect(() => {
+    fetchPokemons();
+  }, [page, searchValue]);
+
+  const handlePage = (page: number) => {
+    setPage(page);
+    setSearchParams({ page: String(page) });
   };
 
   const submitSearch = () => {
-    setSearch(inputValue);
     setLocalStorageItem("search", inputValue);
+    setSearchValue(inputValue);
+    handlePage(1);
   };
 
-  useEffect(() => {
-    const fetchPokemons = async () => {
-      setIsLoading(true);
-      const pokemonsApi = new PokeApi();
-      const pokemonsArray = await pokemonsApi.getPokemons();
-      const pokemons = await Promise.all(
-        pokemonsArray.map(async (pokemon: PokemonsProps) => {
-          const { name, weight, height, abilities, image } =
-            await pokemonsApi.getPokemon(pokemon.name);
+  const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    setInputValue(inputValue);
+  };
 
-          return {
-            name,
-            weight,
-            height,
-            abilities,
-            image,
-          };
-        }),
-      );
-      setPokemons(pokemons);
-      setIsLoading(false);
-    };
+  const fetchPokemons = async () => {
+    setIsLoading(true);
+    const pokemonsApi = new PokeApi();
+    const { total, pokemons } = await pokemonsApi.getPokemons({
+      page: +page,
+      searchValue,
+    });
 
-    fetchPokemons();
-  }, []);
-
-  const filteredPokemons = pokemons.filter(
-    (pokemon) => pokemon.name.indexOf(search) !== -1,
-  );
+    setTotal(total);
+    setPokemons(pokemons);
+    setIsLoading(false);
+  };
 
   if (hasError) {
     throw new Error("Generated error");
@@ -70,7 +68,13 @@ const MainPage = () => {
         onInputChange={onInputChange}
         submitSearch={submitSearch}
       />
-      {isLoading ? <Loader /> : <PokemonsTable pokemons={filteredPokemons} />}
+      {isLoading ? <Loader /> : <PokemonsTable pokemons={pokemons} />}
+      <Pagination
+        currentPage={+page}
+        totalCount={total}
+        pageLimit={20}
+        setPage={handlePage}
+      />
     </>
   );
 };
