@@ -1,7 +1,7 @@
-import { People } from '../../types/types';
+import { Hero } from '../../types/types';
 import './posts.css';
 
-export function Post(props: People) {
+export function Post(props: Hero) {
   return (
     <div className="post">
       <h1>{props.name}</h1>
