@@ -8,19 +8,29 @@ export interface SearchFormState {
 
 export interface Results {
   url: string;
+  id: number;
   image: string;
   name: string;
   status: string;
   species: string;
+  gender: string;
+  type: string;
+  episode: [];
   location: {
     name: string;
   };
 }
 
+export interface EpisodeDetails {
+  id: number;
+  name: string;
+  episode: string;
+}
 export interface ResultsAPIProps {
   results: Results[];
   error: Error | null;
   selectedPageSize: number;
+  onItemClick: (result: Results) => void;
 }
 
 export interface AppState {

@@ -2,7 +2,13 @@ import { useEffect, useState } from 'react';
 import { SearchForm } from './components/SearchForm';
 import { ResultsAPI } from './components/Results';
 import './App.css';
-import { fetchCharacter, fetchCharacterByPage } from './rest api/character';
+import {
+  fetchCharacter,
+  fetchCharacterByPage,
+  fetchDetails,
+} from './rest api/character';
+import { Results } from './types/interface';
+import Details from './components/Details';
 
 export const App = () => {
   const storedUserInput = localStorage.getItem('userInput');
@@ -10,8 +16,37 @@ export const App = () => {
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
+  const [selectedCharacterId, setSelectedCharacterId] = useState<
+    number | null
+  >();
+  const [characterDetails, setCharacterDetails] = useState<Results | null>(
+    null
+  );
+
+  const handleSelectedCharacter = (characterId: number) => {
+    setSelectedCharacterId(characterId);
+    setLoading(true);
+    fetchDetails(characterId)
+      .then((details) => {
+        setCharacterDetails(details);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching character details: ', error);
+        setLoading(false);
+      });
+  };
+
+  const handleSelectedCharacterFromResults = (result: Results) => {
+    handleSelectedCharacter(result.id);
+  };
+
+  const handleClearSelection = () => {
+    setSelectedCharacterId(null);
+    setCharacterDetails(null);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -25,7 +60,15 @@ export const App = () => {
     setError(null);
     setCurrentPage(1);
     setLoading(true);
-    fetchCharacterByPage(userInput, 3, pageSize);
+    fetchCharacterByPage(userInput, 1, pageSize)
+      .then((data) => {
+        setResults(data.results);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
 
     fetchCharacter(userInput)
       .then((data) => setResults(data.results))
@@ -39,6 +82,7 @@ export const App = () => {
     fetchCharacterByPage(userInput, page)
       .then((data) => {
         setResults(data.results);
+        console.log(data.results);
         setLoading(false);
       })
       .catch((error) => {
@@ -49,7 +93,6 @@ export const App = () => {
 
   const handlePageSizeChange = (newPageSize: number) => {
     setPageSize(newPageSize);
-    console.log(newPageSize);
   };
 
   const handleNextPage = () => {
@@ -62,29 +105,38 @@ export const App = () => {
     }
   };
   return (
-    <div>
-      <div className="pagination">
-        <button onClick={handlePrevPage}>Prev</button>
-        <div>{currentPage}</div>
-        <button onClick={handleNextPage}>Next</button>
-        <select
-          className="select"
-          value={pageSize}
-          onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-        >
-          <option value={5}>5</option>
-          <option value={10}>10</option>
-          <option value={20}>20</option>
-        </select>
+    <div className="app-container">
+      <div className="left-panel">
+        <div className="pagination">
+          <button onClick={handlePrevPage}>Prev</button>
+          <div>{currentPage}</div>
+          <button onClick={handleNextPage}>Next</button>
+          <select
+            className="select"
+            value={pageSize}
+            onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+          >
+            <option value={5}>5</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+          </select>
+        </div>
+        <SearchForm onSearch={handleSearch} searchTerm={userInput} />
+        {loading ? (
+          <div className="loader"></div>
+        ) : (
+          <ResultsAPI
+            results={results}
+            error={error}
+            selectedPageSize={pageSize}
+            onItemClick={handleSelectedCharacterFromResults}
+          />
+        )}
       </div>
-      <SearchForm onSearch={handleSearch} searchTerm={userInput} />
-      {loading ? (
-        <div className="loader"></div>
-      ) : (
-        <ResultsAPI
-          results={results}
-          error={error}
-          selectedPageSize={pageSize}
+      {selectedCharacterId && characterDetails && (
+        <Details
+          characterDetails={characterDetails}
+          onClose={handleClearSelection}
         />
       )}
     </div>

@@ -14,6 +14,7 @@ const router = createBrowserRouter([
   // {
   //   path: '/?page=/:pageNumber',
   //   element: <App />,
+  //   loader: fetchCharacterByPage('userInput', 1, 10),
   // },
 ]);
 
