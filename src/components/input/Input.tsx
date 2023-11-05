@@ -3,11 +3,13 @@ import './input.css';
 
 interface Props {
   callback: (InputName: string) => void;
+  default: string;
 }
 
 export function Input(props: Props) {
-  const [input, setInput] = useState(localStorage.getItem('name') || '');
-
+  const [input, setInput] = useState(
+    props.default || localStorage.getItem('name') || ''
+  );
   function onChange(event: ChangeEvent<HTMLInputElement>): void {
     setInput(event.currentTarget.value);
   }

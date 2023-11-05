@@ -4,6 +4,7 @@ import { Input } from '../../components/input/Input';
 import { Hero } from '../../types/types';
 import { Pagination } from '../../components/pagination/Pagination';
 import './home.css';
+import { useSearchParams } from 'react-router-dom';
 
 export function HomePage() {
   const [herous, setHerous] = useState([]);
@@ -12,6 +13,7 @@ export function HomePage() {
   const [previousPage, setPreviousPage] = useState('');
   const [currentPage, setCurrenPage] = useState('1');
   const [count, setCount] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   function getAllHerous() {
     fetch('https://swapi.dev/api/people/')
@@ -25,12 +27,13 @@ export function HomePage() {
         setPreviousPage(data.previous);
         getCurrentPage(data.previous, data.next);
         setCount(data.count);
+        setSearchParams({ page: currentPage, search: '' });
         setIsLoaded(false);
       });
   }
 
-  function getSearchHerous(name: string) {
-    fetch(`https://swapi.dev/api/people/?search=${name}`)
+  function getSearchHerous(name: string, page: string) {
+    fetch(`https://swapi.dev/api/people/?search=${name}&page=${page}`)
       .then((response) => {
         return response.json();
       })
@@ -41,6 +44,7 @@ export function HomePage() {
         setNextPage(data.next);
         setPreviousPage(data.previous);
         getCurrentPage(data.previous, data.next);
+        setSearchParams({ page: page, search: `${name}` });
         setIsLoaded(false);
       });
   }
@@ -58,6 +62,10 @@ export function HomePage() {
         setNextPage(data.next);
         setPreviousPage(data.previous);
         getCurrentPage(data.previous, data.next);
+        setSearchParams({
+          page: `${String(Number(searchParams.get('page')) + 1)}`,
+          search: `${searchParams.get('search')}`,
+        });
         setIsLoaded(false);
       });
   }
@@ -75,13 +83,18 @@ export function HomePage() {
         setNextPage(data.next);
         setPreviousPage(data.previous);
         getCurrentPage(data.previous, data.next);
+        setSearchParams({
+          page: `${String(Number(searchParams.get('page')) - 1)}`,
+          search: `${searchParams.get('search')}`,
+        });
         setIsLoaded(false);
       });
   }
 
   function getInputName(input: string) {
     setIsLoaded(true);
-    getSearchHerous(input);
+    setSearchParams({ search: input, page: '1' });
+    getSearchHerous(input, searchParams.get('page') || '1');
   }
 
   function getCurrentPage(prev: string, next: string) {
@@ -96,18 +109,29 @@ export function HomePage() {
 
   useEffect(() => {
     setIsLoaded(true);
-    if (localStorage.getItem('name')) {
-      getSearchHerous(localStorage.getItem('name') || '');
+    const page = searchParams.get('page') || '1';
+    const search = searchParams.get('search') || '';
+    console.log(page, search);
+    if (search !== '' || page !== '1') {
+      console.log('a');
+      localStorage.setItem('name', search);
+      getSearchHerous(search, page);
+      return;
+    } else if (localStorage.getItem('name')) {
+      getSearchHerous(localStorage.getItem('name') || '', page);
     } else {
       getAllHerous();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <div className="app">
       <h1 className="title">The Star Wars Hero</h1>
-      <Input callback={getInputName} />
+      <Input
+        callback={getInputName}
+        default={searchParams.get('search') || ''}
+      />
       {isLoaded ? (
         <p className="loading">loading...</p>
       ) : (

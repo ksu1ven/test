@@ -14,20 +14,20 @@ export function Pagination(props: Props) {
   console.log(props);
 
   return (
-    <div className="pagination">
-      <button disabled={props.isPrev} onClick={props.getPrevPage}>
-        prev page
-      </button>
-      {props.isLoaded ? (
-        <p className="loading">loading...</p>
-      ) : (
-        <p className="page">
-          Page: {props.currentPage} from {Math.ceil(props.count / 10)}
-        </p>
+    <>
+      {!props.isLoaded && (
+        <div className="pagination">
+          <button disabled={props.isPrev} onClick={props.getPrevPage}>
+            prev page
+          </button>
+          <p className="page">
+            Page: {props.currentPage} from {Math.ceil(props.count / 10)}
+          </p>
+          <button disabled={props.isNext} onClick={props.getNextPage}>
+            next page
+          </button>
+        </div>
       )}
-      <button disabled={props.isNext} onClick={props.getNextPage}>
-        next page
-      </button>
-    </div>
+    </>
   );
 }
