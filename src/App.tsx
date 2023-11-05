@@ -8,7 +8,7 @@ import {
   fetchDetails,
 } from './rest api/character';
 import { Results } from './types/interface';
-import Details from './components/Details';
+import { Details } from './components/Details';
 
 export const App = () => {
   const storedUserInput = localStorage.getItem('userInput');

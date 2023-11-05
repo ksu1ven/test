@@ -6,7 +6,10 @@ interface DetailsProps {
   onClose: () => void;
 }
 
-const Details: React.FC<DetailsProps> = ({ characterDetails, onClose }) => {
+export const Details: React.FC<DetailsProps> = ({
+  characterDetails,
+  onClose,
+}) => {
   const [episodeDetails, setEpisodeDetails] = useState<EpisodeDetails[]>([]);
 
   useEffect(() => {
@@ -54,5 +57,3 @@ const Details: React.FC<DetailsProps> = ({ characterDetails, onClose }) => {
     </div>
   );
 };
-
-export default Details;

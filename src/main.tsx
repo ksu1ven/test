@@ -11,11 +11,6 @@ const router = createBrowserRouter([
     element: <App />,
     errorElement: <ErrorPage />,
   },
-  // {
-  //   path: '/?page=/:pageNumber',
-  //   element: <App />,
-  //   loader: fetchCharacterByPage('userInput', 1, 10),
-  // },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
