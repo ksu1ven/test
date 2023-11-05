@@ -15,6 +15,21 @@
   margin: 20px auto;
 }
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.pagination button {
+  margin: 0 10px;
+}
+
+.select {
+  margin-left: 10px;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
