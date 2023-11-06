@@ -7,3 +7,8 @@ export interface Hero {
   height: string;
   url?: string;
 }
+
+export interface HeroList {
+  name: string;
+  url?: string;
+}

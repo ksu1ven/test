@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Post } from '../../components/post/Post';
+import { Post } from '../../components/posts-list-item/PostsListItem';
 import { Input } from '../../components/input/Input';
-import { Hero } from '../../types/types';
+import { HeroList } from '../../types/types';
 import { Pagination } from '../../components/pagination/Pagination';
 import './home.css';
-import { useSearchParams } from 'react-router-dom';
+import { Link, Outlet, useSearchParams } from 'react-router-dom';
 
 export function HomePage() {
   const [herous, setHerous] = useState([]);
@@ -126,39 +126,39 @@ export function HomePage() {
   }, []);
 
   return (
-    <div className="app">
-      <h1 className="title">The Star Wars Hero</h1>
-      <Input
-        callback={getInputName}
-        default={searchParams.get('search') || ''}
-      />
-      {isLoaded ? (
-        <p className="loading">loading...</p>
-      ) : (
-        herous.map((hero: Hero) => (
-          <Post
-            key={hero.url}
-            name={hero.name}
-            eye_color={hero.eye_color}
-            gender={hero.gender}
-            hair_color={hero.hair_color}
-            height={hero.height}
-            birth_year={hero.birth_year}
-          />
-        ))
-      )}
-      {!isLoaded && herous.length === 0 && (
-        <p className="incorrect-name">Incorrect name</p>
-      )}
-      <Pagination
-        currentPage={currentPage}
-        isPrev={!previousPage}
-        isNext={!nextPage}
-        getPrevPage={getPrevPageHerous}
-        getNextPage={getNextPageHerous}
-        count={count}
-        isLoaded={isLoaded}
-      />
-    </div>
+    <>
+      <div className="app">
+        <h1 className="title">The Star Wars Hero</h1>
+        <Input
+          callback={getInputName}
+          default={searchParams.get('search') || ''}
+        />
+        {isLoaded ? (
+          <p className="loading">loading...</p>
+        ) : (
+          herous.map((hero: HeroList) => {
+            const id = hero.url?.split('/')[5];
+            return (
+              <Link className="post-link" key={id} to={`herous/${id}`}>
+                <Post name={hero.name} />
+              </Link>
+            );
+          })
+        )}
+        {!isLoaded && herous.length === 0 && (
+          <p className="incorrect-name">Incorrect name</p>
+        )}
+        <Pagination
+          currentPage={currentPage}
+          isPrev={!previousPage}
+          isNext={!nextPage}
+          getPrevPage={getPrevPageHerous}
+          getNextPage={getNextPageHerous}
+          count={count}
+          isLoaded={isLoaded}
+        />
+      </div>
+      <Outlet />
+    </>
   );
 }

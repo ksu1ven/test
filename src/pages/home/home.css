@@ -12,3 +12,7 @@
 .app {
   margin: 0px 40px;
 }
+
+.post-link {
+  text-decoration: none;
+}
