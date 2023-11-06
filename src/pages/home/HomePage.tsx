@@ -133,32 +133,36 @@ export function HomePage() {
           callback={getInputName}
           default={searchParams.get('search') || ''}
         />
-        {isLoaded ? (
-          <p className="loading">loading...</p>
-        ) : (
-          herous.map((hero: HeroList) => {
-            const id = hero.url?.split('/')[5];
-            return (
-              <Link className="post-link" key={id} to={`herous/${id}`}>
-                <Post name={hero.name} />
-              </Link>
-            );
-          })
-        )}
-        {!isLoaded && herous.length === 0 && (
-          <p className="incorrect-name">Incorrect name</p>
-        )}
-        <Pagination
-          currentPage={currentPage}
-          isPrev={!previousPage}
-          isNext={!nextPage}
-          getPrevPage={getPrevPageHerous}
-          getNextPage={getNextPageHerous}
-          count={count}
-          isLoaded={isLoaded}
-        />
+        <div className="content">
+          <div className="posts-list">
+            {isLoaded ? (
+              <p className="loading">loading...</p>
+            ) : (
+              herous.map((hero: HeroList) => {
+                const id = hero.url?.split('/')[5];
+                return (
+                  <Link className="post-link" key={id} to={`herous/${id}`}>
+                    <Post name={hero.name} />
+                  </Link>
+                );
+              })
+            )}
+            {!isLoaded && herous.length === 0 && (
+              <p className="incorrect-name">Incorrect name</p>
+            )}
+            <Pagination
+              currentPage={currentPage}
+              isPrev={!previousPage}
+              isNext={!nextPage}
+              getPrevPage={getPrevPageHerous}
+              getNextPage={getNextPageHerous}
+              count={count}
+              isLoaded={isLoaded}
+            />
+          </div>
+          <Outlet />
+        </div>
       </div>
-      <Outlet />
     </>
   );
 }

@@ -16,3 +16,11 @@
 .post-link {
   text-decoration: none;
 }
+
+.content {
+  display: flex;
+}
+
+.posts-list {
+  width: 100%;
+}
