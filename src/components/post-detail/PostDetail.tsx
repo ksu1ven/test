@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
 import { Hero } from '../../types/types';
 import './postDetail.css';
 
 export function PostDetail() {
   const { id } = useParams();
+  const [setIsOpened] = useOutletContext<[(isOpened: boolean) => void]>();
+  setIsOpened(true);
   const [hero, setHero] = useState<Hero>({
     name: '',
     birth_year: '',
@@ -29,15 +31,15 @@ export function PostDetail() {
   return (
     <>
       {isLoaded ? (
-        <p className="post-loading">loading...</p>
+        <p className="post-loading hero">loading...</p>
       ) : (
-        <div className="post-detail">
-          <h2>{hero.name}</h2>
-          <p>birth_year: {hero.birth_year}</p>
-          <p>height: {hero.height}</p>
-          <p>gender: {hero.gender}</p>
-          <p>eye_color: {hero.eye_color}</p>
-          <p>hair_color: {hero.hair_color}</p>
+        <div className="post-detail hero">
+          <h2 className="hero">{hero.name}</h2>
+          <p className="hero">birth_year: {hero.birth_year}</p>
+          <p className="hero">height: {hero.height}</p>
+          <p className="hero">gender: {hero.gender}</p>
+          <p className="hero">eye_color: {hero.eye_color}</p>
+          <p className="hero">hair_color: {hero.hair_color}</p>
         </div>
       )}
     </>

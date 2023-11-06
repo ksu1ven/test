@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, MouseEvent } from 'react';
 import { Post } from '../../components/posts-list-item/PostsListItem';
 import { Input } from '../../components/input/Input';
 import { HeroList } from '../../types/types';
 import { Pagination } from '../../components/pagination/Pagination';
 import './home.css';
-import { Link, Outlet, useSearchParams } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 
 export function HomePage() {
   const [herous, setHerous] = useState([]);
@@ -14,6 +14,8 @@ export function HomePage() {
   const [currentPage, setCurrenPage] = useState('1');
   const [count, setCount] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isOpened, setIsOpened] = useState(false);
+  const navigate = useNavigate();
 
   function getAllHerous() {
     fetch('https://swapi.dev/api/people/')
@@ -125,9 +127,23 @@ export function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function onClick(event: MouseEvent) {
+    if (!isOpened) {
+      return;
+    }
+    if (
+      event.target instanceof HTMLElement &&
+      !event.target.classList.contains('hero')
+    ) {
+      event.preventDefault();
+      setIsOpened(false);
+      return navigate('/');
+    }
+  }
+
   return (
     <>
-      <div className="app">
+      <div className="app" onClick={onClick}>
         <h1 className="title">The Star Wars Hero</h1>
         <Input
           callback={getInputName}
@@ -160,7 +176,7 @@ export function HomePage() {
               isLoaded={isLoaded}
             />
           </div>
-          <Outlet />
+          <Outlet context={[setIsOpened]} />
         </div>
       </div>
     </>
