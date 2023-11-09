@@ -30,9 +30,7 @@ const PokemonsTable = ({ pokemons }: Props) => {
                 )}
               </td>
               <td>
-                <Link to={"/" + pokemon.name.toLowerCase()}>
-                  {pokemon.name}
-                </Link>
+                <Link to={pokemon.name.toLowerCase()}>{pokemon.name}</Link>
               </td>
             </tr>
           );

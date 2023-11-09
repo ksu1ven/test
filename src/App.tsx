@@ -10,7 +10,7 @@ function App() {
   useEffect(() => {
     if (!window.location.search.includes("page")) {
       const path = !window.location.search
-        ? "/?page=1"
+        ? "?page=1"
         : `${window.location.search}&page=1`;
       navigate(path, { replace: true });
     }
