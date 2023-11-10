@@ -1,14 +1,14 @@
-import PokemonResponse from "../../types/pokemon-response";
+import { useContext } from "react";
+import { Context } from "../../context-api/context";
 import { Link } from "react-router-dom";
 
-type Props = {
-  pokemons: PokemonResponse[];
-};
+const PokemonsTable = () => {
+  const { pokemons } = useContext(Context);
 
-const PokemonsTable = ({ pokemons }: Props) => {
   if (pokemons.length === 0) {
     return <p className="not-found">Nothing found</p>;
   }
+
   return (
     <table>
       <thead>

@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
 } from "../../api/local-storage";
 import PokeApi from "../../api/poke-api";
-import PokemonResponse from "../../types/pokemon-response";
+import { Context } from "../../context-api/context";
+
 import Search from "../search";
 import Loader from "../loader";
 import PokemonsTable from "../pokemons-table";
@@ -14,8 +15,7 @@ import Pagination from "../pagination";
 
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [pokemons, setPokemons] = useState<PokemonResponse[]>([]);
-  const [searchValue, setSearchValue] = useState(getLocalStorageItem("search"));
+  const { setPokemons, searchValue, setSearchValue } = useContext(Context);
   const [inputValue, setInputValue] = useState(getLocalStorageItem("search"));
   const [page, setPage] = useState(searchParams.get("page") ?? 1);
   const [total, setTotal] = useState(0);
@@ -70,7 +70,7 @@ const MainPage = () => {
           onInputChange={onInputChange}
           submitSearch={submitSearch}
         />
-        {isLoading ? <Loader /> : <PokemonsTable pokemons={pokemons} />}
+        {isLoading ? <Loader /> : <PokemonsTable />}
         <Pagination
           currentPage={+page}
           totalCount={total}
