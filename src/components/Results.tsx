@@ -1,8 +1,11 @@
-import { Results, ResultsAPIProps } from '../types/interface';
+import { useContext } from 'react';
+import { Results } from '../types/interface';
 import './Results.css';
+import { ResultContext } from '../utils/Context';
 
-export const ResultsAPI = (props: ResultsAPIProps): JSX.Element => {
-  const { results, selectedPageSize, onItemClick } = props;
+export const ResultsAPI = (): JSX.Element => {
+  const context = useContext(ResultContext);
+  const { results, selectedPageSize, onItemClick } = context;
   const resultsToDisplay = selectedPageSize
     ? results.slice(0, selectedPageSize)
     : results;

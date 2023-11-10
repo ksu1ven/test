@@ -9,6 +9,7 @@ import {
 } from './rest api/character';
 import { Results } from './types/interface';
 import { Details } from './components/Details';
+import { ResultContext, SearchContext } from './utils/Context';
 
 export const App = () => {
   const storedUserInput = localStorage.getItem('userInput');
@@ -121,18 +122,31 @@ export const App = () => {
             <option value={20}>20</option>
           </select>
         </div>
-        <SearchForm onSearch={handleSearch} searchTerm={userInput} />
+        <SearchContext.Provider
+          value={{
+            onSearch: handleSearch,
+            searchTerm: userInput,
+          }}
+        >
+          <SearchForm />
+        </SearchContext.Provider>
+
         {loading ? (
           <div className="loader"></div>
         ) : (
-          <ResultsAPI
-            results={results}
-            error={error}
-            selectedPageSize={pageSize}
-            onItemClick={handleSelectedCharacterFromResults}
-          />
+          <ResultContext.Provider
+            value={{
+              results,
+              error,
+              selectedPageSize: pageSize,
+              onItemClick: handleSelectedCharacterFromResults,
+            }}
+          >
+            <ResultsAPI />
+          </ResultContext.Provider>
         )}
       </div>
+
       {selectedCharacterId && characterDetails && (
         <Details
           characterDetails={characterDetails}

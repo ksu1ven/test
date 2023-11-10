@@ -1,15 +1,16 @@
-import React, { ChangeEvent, useState } from 'react';
-import { SearchFormProps } from '../types/interface';
+import React, { ChangeEvent, useContext, useState } from 'react';
+import { SearchContext } from '../utils/Context';
 
-export const SearchForm = (props: SearchFormProps): JSX.Element => {
-  const [searchTerm, setSearchTerm] = useState(props.searchTerm || '');
+export const SearchForm = (): JSX.Element => {
+  const context = useContext(SearchContext);
+  const [searchTerm, setSearchTerm] = useState(context.searchTerm || '');
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
   const handleSearch = () => {
-    props.onSearch(searchTerm);
+    context.onSearch(searchTerm);
   };
 
   const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
