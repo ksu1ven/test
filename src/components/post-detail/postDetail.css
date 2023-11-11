@@ -4,3 +4,15 @@
   text-align: center;
   color: teal;
 }
+
+.post-detail-button {
+  margin-top: 20px;
+  color: white;
+  background-color: teal;
+  border: 2px solid teal;
+}
+
+.post-detail-button:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}

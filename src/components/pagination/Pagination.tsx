@@ -1,29 +1,36 @@
+import { useContext } from 'react';
 import './pagination.css';
+import { CustomContext } from '../../context';
 
-interface Props {
-  currentPage: string;
-  isNext: boolean;
-  isPrev: boolean;
-  getPrevPage: () => void;
-  getNextPage: () => void;
-  count: number;
-  isLoaded: boolean;
-}
+export function Pagination() {
+  const { page, setPage, data } = useContext(CustomContext);
 
-export function Pagination(props: Props) {
-  console.log(props);
+  function getPrevPage() {
+    if (data?.previous) {
+      const page = data.previous.split('page=')[1];
+      console.log(page);
+      setPage(page);
+    }
+  }
+
+  function getNextPage() {
+    if (data?.next) {
+      const page = data.next.split('page=')[1];
+      setPage(page);
+    }
+  }
 
   return (
     <>
-      {!props.isLoaded && (
+      {data && (
         <div className="pagination">
-          <button disabled={props.isPrev} onClick={props.getPrevPage}>
+          <button disabled={!data.previous} onClick={getPrevPage}>
             prev page
           </button>
           <p className="page">
-            Page: {props.currentPage} from {Math.ceil(props.count / 10)}
+            Page: {page} from {Math.ceil(data.count / 10)}
           </p>
-          <button disabled={props.isNext} onClick={props.getNextPage}>
+          <button disabled={!data.next} onClick={getNextPage}>
             next page
           </button>
         </div>

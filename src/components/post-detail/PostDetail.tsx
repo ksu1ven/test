@@ -40,6 +40,7 @@ export function PostDetail() {
           <p className="hero">gender: {hero.gender}</p>
           <p className="hero">eye_color: {hero.eye_color}</p>
           <p className="hero">hair_color: {hero.hair_color}</p>
+          <button className="post-detail-button">hide information</button>
         </div>
       )}
     </>

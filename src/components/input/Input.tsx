@@ -1,23 +1,19 @@
-import { ChangeEvent, MouseEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import './input.css';
+import { CustomContext } from '../../context';
 
-interface Props {
-  callback: (InputName: string) => void;
-  default: string;
-}
+export function Input() {
+  const { searchText, setSearchText } = useContext(CustomContext);
+  const [inputValue, setInputValue] = useState(searchText);
 
-export function Input(props: Props) {
-  const [input, setInput] = useState(
-    props.default || localStorage.getItem('name') || ''
-  );
   function onChange(event: ChangeEvent<HTMLInputElement>): void {
-    setInput(event.currentTarget.value);
+    setInputValue(event.currentTarget.value);
   }
 
-  function onClick(event: MouseEvent<HTMLElement>): void {
+  function onSubmit(event: FormEvent<HTMLButtonElement>): void {
     event.preventDefault();
-    props.callback(input.trim());
-    localStorage.setItem('name', input.trim());
+    setSearchText(inputValue.trim());
+    localStorage.setItem('name', inputValue.trim());
   }
 
   return (
@@ -25,9 +21,9 @@ export function Input(props: Props) {
       <input
         placeholder="enter a name"
         onChange={onChange}
-        value={input}
+        value={inputValue}
       ></input>
-      <button type="submit" onClick={onClick}>
+      <button type="submit" onClick={onSubmit}>
         search
       </button>
     </form>
