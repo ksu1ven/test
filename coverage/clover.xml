@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1699581866279" clover="3.2.0">
-  <project timestamp="1699581866279" name="All files">
-    <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1" elements="3" coveredelements="3" complexity="0" loc="2" ncloc="2" packages="1" files="1" classes="1"/>
-    <file name="sum.js" path="D:\Games\IТ2\React-Components\tests\sum.js">
-      <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-      <line num="2" count="1" type="stmt"/>
-      <line num="4" count="1" type="stmt"/>
-    </file>
+<coverage generated="1699745236539" clover="3.2.0">
+  <project timestamp="1699745236540" name="All files">
+    <metrics statements="13" coveredstatements="12" conditionals="4" coveredconditionals="3" methods="5" coveredmethods="2" elements="22" coveredelements="17" complexity="0" loc="13" ncloc="13" packages="2" files="2" classes="2"/>
+    <package name="components">
+      <metrics statements="10" coveredstatements="9" conditionals="4" coveredconditionals="3" methods="3" coveredmethods="2"/>
+      <file name="Results.tsx" path="D:\Games\IТ2\React-Components\src\components\Results.tsx">
+        <metrics statements="10" coveredstatements="9" conditionals="4" coveredconditionals="3" methods="3" coveredmethods="2"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="8" count="2" type="stmt"/>
+        <line num="9" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="18" count="3" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="utils">
+      <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="Context.tsx" path="D:\Games\IТ2\React-Components\src\utils\Context.tsx">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+      </file>
+    </package>
   </project>
 </coverage>

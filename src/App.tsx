@@ -69,11 +69,15 @@ export const App = () => {
       .catch((error) => {
         setError(error);
         setLoading(false);
+        // setResults([]);
       });
 
     fetchCharacter(userInput)
       .then((data) => setResults(data.results))
-      .catch((error) => setError(error))
+      .catch((error) => {
+        setError(error);
+        setResults([]);
+      })
       .finally(() => setLoading(false));
   };
   const handlePageChange = (page: number) => {
@@ -89,6 +93,7 @@ export const App = () => {
       .catch((error) => {
         setError(error);
         setLoading(false);
+        // setResults([]);
       });
   };
 
