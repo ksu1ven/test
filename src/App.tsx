@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MainPage from "./components/main-page";
-import ErrorBoundary from "./components/error-boundary";
 import PokemonResponse from "./types/pokemon-response";
 import { Context } from "./context-api/context";
 
@@ -24,9 +23,7 @@ function App() {
     <Context.Provider
       value={{ pokemons, setPokemons, searchValue, setSearchValue }}
     >
-      <ErrorBoundary>
-        <MainPage />
-      </ErrorBoundary>
+      <MainPage />
     </Context.Provider>
   );
 }

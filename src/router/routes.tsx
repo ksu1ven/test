@@ -1,6 +1,7 @@
 import { Link, RouteObject } from "react-router-dom";
 import App from "../App";
 import PokemonCard from "../components/pokemon-card";
+import NotFoundPage from "../components/not-found-page";
 
 export const routes: RouteObject[] = [
   {
@@ -23,6 +24,6 @@ export const routes: RouteObject[] = [
   },
   {
     path: "*",
-    element: <h1>404</h1>,
+    element: <NotFoundPage />,
   },
 ];

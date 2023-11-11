@@ -1,16 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { Outlet, useSearchParams } from "react-router-dom";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
 } from "../../api/local-storage";
 import PokeApi from "../../api/poke-api";
 import { Context } from "../../context-api/context";
-
 import Search from "../search";
 import Loader from "../loader";
 import PokemonsTable from "../pokemons-table";
-import { Outlet, useSearchParams } from "react-router-dom";
 import Pagination from "../pagination";
 
 const MainPage = () => {
