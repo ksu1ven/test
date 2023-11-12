@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { EpisodeDetails, Results } from '../types/interface';
-
-interface DetailsProps {
-  characterDetails: Results;
-  onClose: () => void;
-}
+import { DetailsProps, EpisodeDetails } from '../types/interface';
 
 export const Details: React.FC<DetailsProps> = ({
   characterDetails,
   onClose,
 }) => {
   const [episodeDetails, setEpisodeDetails] = useState<EpisodeDetails[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (characterDetails && characterDetails.episode) {
-      Promise.all(
-        characterDetails.episode.map((episodeUrl: string) =>
-          fetch(episodeUrl).then((response) => response.json())
-        )
-      )
-        .then((data) => {
+    const fetchEpisodeDetails = async () => {
+      if (characterDetails && characterDetails.episode) {
+        setLoading(true);
+
+        try {
+          const data = await Promise.all(
+            characterDetails.episode.map((episodeUrl: string) =>
+              fetch(episodeUrl).then((response) => response.json())
+            )
+          );
+
           setEpisodeDetails(data);
-        })
-        .catch((error) => {
+        } catch (error) {
           console.error('Error fetching episode details: ', error);
-        });
-    }
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchEpisodeDetails();
   }, [characterDetails]);
 
   return (
@@ -39,7 +43,8 @@ export const Details: React.FC<DetailsProps> = ({
         <p>Status: {characterDetails.status}</p>
         <p>Gender: {characterDetails.gender}</p>
         <p>Species: {characterDetails.species}</p>
-        {episodeDetails && episodeDetails.length > 0 && (
+        {loading && <p>Loading...</p>}
+        {!loading && episodeDetails.length > 0 && (
           <div className="episode-details">
             <h3>Episode:</h3>
             <ul>

@@ -8,4 +8,5 @@ module.exports = {
   },
   testEnvironment: 'jest-environment-jsdom',
   testMatch: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+  setupFilesAfterEnv: ['jest-fetch-mock'],
 };

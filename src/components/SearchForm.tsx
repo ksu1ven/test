@@ -25,6 +25,7 @@ export const SearchForm = (): JSX.Element => {
         value={searchTerm}
         onChange={handleChange}
         onKeyDown={handleKeyPress}
+        placeholder="Search..."
       />
       <button onClick={handleSearch}>Search</button>
     </div>

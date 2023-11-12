@@ -39,3 +39,8 @@ export interface AppState {
   error: Error | null;
   loading: boolean;
 }
+
+export interface DetailsProps {
+  characterDetails: Results;
+  onClose: () => void;
+}
