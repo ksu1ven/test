@@ -6,13 +6,12 @@ import { Data } from '../types/types';
 
 // Mock the CustomContext values
 type CustomContextValues = {
-    searchText: string;
-    setSearchText: (text: string) => void;
-    data: Data | null;
-    page: string;
-    setPage: (page: string) => void;
+  searchText: string;
+  setSearchText: (text: string) => void;
+  data: Data | null;
+  page: string;
+  setPage: (page: string) => void;
 };
-
 
 describe('<Input />', () => {
   const mockSetSearchText = vi.fn() as (text: string) => void;
@@ -21,19 +20,23 @@ describe('<Input />', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    localStorage.clear()
+    localStorage.clear();
   });
 
   // Helper function to render the component with context
   const renderComponent = () =>
     render(
-      <CustomContext.Provider value={{
-        searchText: '',
-        setSearchText: mockSetSearchText,
-        data: null, // Assuming null is an acceptable initial value
-        page: '',
-        setPage: mockSetPage
-      } as CustomContextValues}>
+      <CustomContext.Provider
+        value={
+          {
+            searchText: '',
+            setSearchText: mockSetSearchText,
+            data: null, // Assuming null is an acceptable initial value
+            page: '',
+            setPage: mockSetPage,
+          } as CustomContextValues
+        }
+      >
         <Input />
       </CustomContext.Provider>
     );
@@ -58,5 +61,4 @@ describe('<Input />', () => {
     expect(mockSetSearchText).toHaveBeenCalledWith('John Doe');
     expect(mockLocalStorageSetItem).toHaveBeenCalledWith('name', 'John Doe');
   });
-
 });
