@@ -13,6 +13,7 @@ export function Input() {
   function onSubmit(event: FormEvent<HTMLButtonElement>): void {
     event.preventDefault();
     setSearchText(inputValue.trim());
+    console.log(inputValue);
     localStorage.setItem('name', inputValue.trim());
   }
 
