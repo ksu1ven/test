@@ -19,7 +19,7 @@ const PokemonsTable = () => {
       </thead>
       <tbody>
         {pokemons.map((pokemon) => {
-          const image = pokemon.image[0].url;
+          const image = pokemon.image.length ? pokemon.image[0].url : null;
           return (
             <tr key={pokemon.name}>
               <td>

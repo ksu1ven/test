@@ -1,3 +1,4 @@
+import axios from "axios";
 import PokemonData from "../types/pokemon-data";
 import PokemonResponse from "../types/pokemon-response";
 import PokemonsProps from "../types/pokemons-props";
@@ -11,22 +12,17 @@ export default class PokeApi {
   }
 
   async getAllPokemons(searchValue: string) {
-    return await fetch(`${this.apiUrl}/pokemon?limit=1500`)
-      .then((response) => response.json())
-      .then((data) => {
-        const result = data.results.filter(
-          (pokemon: PokemonsProps) =>
-            pokemon.name.indexOf(searchValue.toLowerCase()) !== -1,
-        );
+    const response = await axios.get(`${this.apiUrl}/pokemon?limit=1500`);
+    const data = response.data;
+    const result = data.results.filter(
+      (pokemon: PokemonsProps) =>
+        pokemon.name.indexOf(searchValue.toLowerCase()) !== -1,
+    );
 
-        return {
-          total: result.length,
-          pokemons: result,
-        };
-      })
-      .catch((error) => {
-        throw new Error(error);
-      });
+    return {
+      total: result.length,
+      pokemons: result,
+    };
   }
 
   async getPokemons({
@@ -74,12 +70,9 @@ export default class PokeApi {
   }
 
   async getPokemon(name: string) {
-    return await fetch(`${this.apiUrl}/pokemon/${name}`)
-      .then((respose) => respose.json())
-      .then((data) => this.convertPokemon(data))
-      .catch((error) => {
-        throw new Error(error);
-      });
+    const response = await axios.get(`${this.apiUrl}/pokemon/${name}`);
+    const data = response.data;
+    return this.convertPokemon(data);
   }
 
   convertPokemon({

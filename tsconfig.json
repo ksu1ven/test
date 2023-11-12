@@ -24,6 +24,6 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
+  "include": ["src", "src/components/pokemons-table/pokemon-table.test.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
