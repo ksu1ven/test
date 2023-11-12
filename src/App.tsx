@@ -10,6 +10,7 @@ import {
 import { Results } from './types/interface';
 import { Details } from './components/Details';
 import { ResultContext, SearchContext } from './utils/Context';
+import Pagination from './components/Pagination';
 
 export const App = () => {
   const storedUserInput = localStorage.getItem('userInput');
@@ -101,32 +102,16 @@ export const App = () => {
     setPageSize(newPageSize);
   };
 
-  const handleNextPage = () => {
-    handlePageChange(currentPage + 1);
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      handlePageChange(currentPage - 1);
-    }
-  };
   return (
     <div className="app-container">
       <div className="left-panel">
-        <div className="pagination">
-          <button onClick={handlePrevPage}>Prev</button>
-          <div>{currentPage}</div>
-          <button onClick={handleNextPage}>Next</button>
-          <select
-            className="select"
-            value={pageSize}
-            onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-          </select>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          pageSize={pageSize}
+          totalResults={results.length}
+          onPageChange={handlePageChange}
+          onPageSizeChange={handlePageSizeChange}
+        />
         <SearchContext.Provider
           value={{
             onSearch: handleSearch,
