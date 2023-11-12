@@ -70,7 +70,6 @@ export const App = () => {
       .catch((error) => {
         setError(error);
         setLoading(false);
-        // setResults([]);
       });
 
     fetchCharacter(userInput)
@@ -94,7 +93,6 @@ export const App = () => {
       .catch((error) => {
         setError(error);
         setLoading(false);
-        // setResults([]);
       });
   };
 
